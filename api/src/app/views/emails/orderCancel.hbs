@@ -1,0 +1,14 @@
+<strong>Olá, {{ deliveryer.name }}</strong>
+<p>A encomenda {{ order.product }} foi cancelada devido ao seguinte problema:</p>
+<p> {{ problem.description }}<br></p>
+<p>
+    <strong>Dados da encomenda: </strong><br>
+    <strong>Nome: </strong> {{ recipient.name }}<br>
+    <strong>Rua: </strong> {{ recipient.address }}<br>
+    <strong>Número: </strong> {{ recipient.address_number }}<br>
+    <strong>Complemento: </strong> {{ recipient.complement }}<br>
+    <strong>Estado: </strong> {{ recipient.state }}<br>
+    <strong>Cidade: </strong> {{ recipient.city }}<br>
+    <strong>CEP: </strong> {{ recipient.zip_code }}<br>
+</p>
+
