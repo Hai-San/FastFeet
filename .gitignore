@@ -1,3 +1,6 @@
 .vscode
 node_modules
 yarn.lock
+/backend/tmp/uploads/*
+/backend/.env
+/frontend/.env
