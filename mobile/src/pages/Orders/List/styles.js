@@ -61,3 +61,11 @@ export const List = styled.FlatList.attrs({
     flex: 1;
     padding: 0px 20px;
 `;
+
+export const Empty = styled.Text`
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    color: ${colors.purple};
+    margin-top: 100px;
+`;

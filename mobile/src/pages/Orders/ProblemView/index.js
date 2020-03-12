@@ -8,7 +8,7 @@ import api from '~/services/api';
 import OrderListProblem from '~/components/OrderListProblem';
 
 export default function ProblemView({ route }) {
-    const { order } = route.params;
+    const { order = {} } = route.params;
     const [problems, setProblems] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
