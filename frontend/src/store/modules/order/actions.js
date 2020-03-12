@@ -1,16 +1,3 @@
-export function OrderRegisterRequest(product, recipient_id, deliveryer_id) {
-    return {
-        type: '@order/ORDER_REGISTER_REQUEST',
-        payload: { product, recipient_id, deliveryer_id },
-    };
-}
-
-export function OrderRegisterSuccess() {
-    return {
-        type: '@order/ORDER_REGISTER_SUCCESS',
-    };
-}
-
 export function OrderUpdateRequest(product, id, recipient_id, deliveryer_id) {
     return {
         type: '@order/ORDER_UPDATE_REQUEST',
