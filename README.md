@@ -12,16 +12,16 @@
 * <a href="#licença">Licença</a>
 
 
-## Sobre o desafio
+<h2>Sobre o desafio</h2>
 
 Aplicação completa (back-end, front-end e Mobile) para uma transportadora fictícia, o FastFeet.
 
-<h1>
+<h3>
     <a id="user-content-detalhes" class="anchor" aria-hidden="true" href="#detalhes">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>
     </a>
     Detalhes do projeto
-</h1>
+</h3>
 
 * A plataforma utilizada foi windows 10
 * A versão Mobile foi desenvolvida apenas para android
@@ -33,12 +33,12 @@ Aplicação completa (back-end, front-end e Mobile) para uma transportadora fict
         * Android: Android 10.0 x86
     * Nas configurações de camera foi utilizado front "none" e back "virtualScene"
 
-<h1>
+<h3>
     <a id="user-content-back" class="anchor" aria-hidden="true" href="#back">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>
     </a>
     📝 Configuração do backend
-</h1>
+</h3>
 
 1. Instalar a última versão estavel (LTS) do [Node.js](https://nodejs.org/)
 
@@ -90,12 +90,12 @@ docker start <containerid>
 
 A partir de agora, se tudo ocorreu sem problemas nós já podemos ir para a configuração do front-end
 
-<h1>
+<h3>
     <a id="user-content-front" class="anchor" aria-hidden="true" href="#front">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>
     </a>
     📝 Configuração do front-end
-</h1>
+</h3>
 
 Dentro da pasta frontend.
 
@@ -110,12 +110,12 @@ Dentro da pasta frontend.
     yarn start
     ```
 
-<h1>
+<h3>
     <a id="user-content-mobile" class="anchor" aria-hidden="true" href="#mobile">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>
     </a>
     📝 Configuração do mobile
-</h1>
+</h3>
 
 Antes de qualquer coisa siga os passos [Deste tutorial](https://docs.rocketseat.dev/ambiente-react-native/android/windows)
 Apenas na parte do emulador eu utilizei outra opção, como foi informado no inicio do README.
@@ -159,11 +159,11 @@ PS: Caso ocorra algum problema a instalação, entre pelo terminal na pasta andr
 ./gradlew clean
 ```
 
-<h1>
+<h3>
     <a id="user-content-licença" class="anchor" aria-hidden="true" href="#licença">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>
     </a>
     📝 Licença
-</h1>
+</h3>
 
 Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
