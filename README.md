@@ -2,7 +2,7 @@
   <img alt="Fastfeet" title="Fastfeet" src="assets/logo.png" width="300px" />
 </h1>
 
-<blockquote align="center">“Um verdadeiro mestre é um eterno aprendiz”!</blockquote>
+<p align="center">“Um verdadeiro mestre é um eterno aprendiz”!</p>
 
 
 * <a href="#sobre-o-desafio">Sobre o desafio</a>
