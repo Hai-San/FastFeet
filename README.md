@@ -95,7 +95,10 @@ Dentro da pasta frontend.
 
 ### 📝 Configuração do mobile
 
-1. Antes de qualquer coisa inicie o emulador ou conecte o seu dispositivo no computador.
+Antes de qualquer coisa siga os passos [Deste tutorial](https://docs.rocketseat.dev/ambiente-react-native/android/windows)
+Apenas na parte do emulador eu utilizei outra opção, como foi informado no inicio do README.
+
+1. Inicie o emulador ou conecte o seu dispositivo no computador.
 2. Confira a URL da api no arquivo api.js dentro de src/services
 3. Inicie o android debug bridge:
     ```bash
