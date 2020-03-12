@@ -44,12 +44,16 @@ Aplicação completa (back-end, front-end e Mobile) para uma transportadora fict
 2. Instalar o docker [DOCKER](https://docs.docker.com/)
 
 3. Criamos um container do postgres [Postgres](https://hub.docker.com/_/postgres)
-    - docker run --name databasename -e POSTGRES_PASSWORD=databasepass -p 5432:5432 -d postgres
+    ```bash
+    docker run --name databasename -e POSTGRES_PASSWORD=databasepass -p 5432:5432 -d postgres
+    ```
     - Baixe o postbird para administrar seu container postgres por uma interface visual
     - Crie um banco de dados com o nome fastfeet ou como preferir
 
 4. Criamos um container do Redis [Redis](https://hub.docker.com/_/redis)
-    - docker run --name databasename -p 6379:6379 -d -t redis:alpine
+    ```bash
+    docker run --name databasename -p 6379:6379 -d -t redis:alpine
+    ```
 
 5. Instalar o YARN ou se preferir pode utilizar o NPM que ja vem isntalado com o Node, porém o tutorial será feito baseado no yarn.
 
