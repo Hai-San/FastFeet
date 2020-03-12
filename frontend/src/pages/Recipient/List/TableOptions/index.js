@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MdMoreHoriz, MdVisibility, MdCreate, MdDeleteForever } from 'react-icons/md';
 
-import { OrderUpdateParams, OrderDeleteRequest } from '~/store/modules/order/actions';
 import { Container, TableOptionsList } from '~/styles/tableOptions';
 
-function TableOptions({ tableItem, fcView, fcEdit, fcDelete }) {
-    const dispatch = useDispatch();
+function TableOptions({ fcView, fcEdit, fcDelete }) {
     const [visible, setVisible] = useState(false);
     const wrapperRef = useRef(null);
 

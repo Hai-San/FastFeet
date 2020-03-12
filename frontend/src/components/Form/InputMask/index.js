@@ -5,7 +5,7 @@ import InputMask from 'react-input-mask';
 
 export default function Input({ id, name, label, labelClass, mask, ...rest }) {
     const inputRef = useRef(null);
-    const { fieldName, defaultValue, registerField, error } = useField(name);
+    const { fieldName, registerField, error } = useField(name);
 
     useEffect(() => {
         registerField({

@@ -37,7 +37,7 @@ export default function DeliveryerUpdate() {
                 const dataFile = new FormData();
                 dataFile.append('file', avatar);
                 const response = await api.post('files', dataFile);
-                const { id, url } = response.data;
+                const { id } = response.data;
                 data.avatar_id = id;
             } else if (!originalFile) {
                 data.avatar_id = null;

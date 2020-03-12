@@ -1,16 +1,3 @@
-export function DeliveryerRegisterRequest(data) {
-    return {
-        type: '@deliveryer/DELIVERYER_REGISTER_REQUEST',
-        payload: data,
-    };
-}
-
-export function DeliveryerRegisterSuccess() {
-    return {
-        type: '@deliveryer/DELIVERYER_REGISTER_SUCCESS',
-    };
-}
-
 export function DeliveryerUpdateRequest(data) {
     return {
         type: '@deliveryer/DELIVERYER_UPDATE_REQUEST',

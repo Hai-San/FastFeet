@@ -19,11 +19,11 @@ export default function OrderUpdate({ location }) {
     const [deliveryerOptions, setDeliveryerOptions] = useState([]);
 
     const order = useSelector(state => state.order.data);
-    const [currentRecipient, setCurrentRecipient] = useState({
+    const [currentRecipient] = useState({
         value: order.recipient.id,
         label: order.recipient.name,
     });
-    const [currentDeliveryer, setCurrentDeliveryer] = useState({
+    const [currentDeliveryer] = useState({
         value: order.deliveryer.id,
         label: order.deliveryer.name,
     });

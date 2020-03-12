@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import Input from '~/components/Form/Input';
 import Select from '~/components/Form/Select';
 
 import api from '~/services/api';
-import { OrderRegisterRequest } from '~/store/modules/order/actions';
 import { Container } from '~/styles/formPages';
 
 export default function OrderRegister() {
     const formRef = useRef(null);
-    const dispatch = useDispatch();
     const [recipientOptions, setRecipientOptions] = useState([]);
     const [deliveryerOptions, setDeliveryerOptions] = useState([]);
 
@@ -32,7 +30,13 @@ export default function OrderRegister() {
 
             const { product, recipient_id, deliveryer_id } = data;
 
-            dispatch(OrderRegisterRequest(product, recipient_id, deliveryer_id));
+            await api.post('orders', {
+                product,
+                recipient_id,
+                deliveryer_id,
+            });
+
+            toast.success('Encomenda registrada com sucesso!');
         } catch (error) {
             const validationErrors = {};
             if (error instanceof Yup.ValidationError) {
@@ -41,6 +45,8 @@ export default function OrderRegister() {
                 });
                 formRef.current.setErrors(validationErrors);
             }
+
+            toast.error('Erro ao cadastrar a encomenda, confira todas as informações.');
         }
     }
 

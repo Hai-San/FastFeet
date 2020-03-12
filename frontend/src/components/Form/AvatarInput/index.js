@@ -3,10 +3,18 @@ import { useField } from '@unform/core';
 
 import { MdPhoto, MdClear } from 'react-icons/md';
 
-export default function AvatarInput({ id, name, defaultPreview, handdleAvatarChange, ...rest }) {
+export default function AvatarInput({
+    id,
+    name,
+    defaultPreview,
+    handdleAvatarChange = null,
+    handdleReset = false,
+    ...rest
+}) {
     const ref = useRef(null);
-    const { fieldName, defaultValue, registerField } = useField(name);
+    const { fieldName, registerField } = useField(name);
     const [preview, setPreview] = useState(defaultPreview);
+    const [reset, setReset] = useState(handdleReset);
 
     useEffect(() => {
         registerField({
@@ -30,15 +38,26 @@ export default function AvatarInput({ id, name, defaultPreview, handdleAvatarCha
         }
     }
 
-    function handdleRemoveAvatar() {
-        setPreview(null);
-        const input = document.getElementById(id);
-        input.value = '';
+    useEffect(() => {
+        setReset(handdleReset);
+    }, [handdleReset]);
 
-        var manualOnChange = document.createEvent('UIEvents');
-        manualOnChange.initUIEvent('change', true, true);
-        input.dispatchEvent(manualOnChange);
-    }
+    useEffect(() => {
+        function handdleRemoveAvatar() {
+            if (reset) {
+                setPreview(null);
+                const input = document.getElementById(id);
+                input.value = '';
+
+                var manualOnChange = document.createEvent('UIEvents');
+                manualOnChange.initUIEvent('change', true, true);
+                input.dispatchEvent(manualOnChange);
+
+                setReset(false);
+            }
+        }
+        handdleRemoveAvatar();
+    }, [reset, id]);
 
     return (
         <div className="avatar">
@@ -65,7 +84,10 @@ export default function AvatarInput({ id, name, defaultPreview, handdleAvatarCha
                 />
             </label>
             {preview && (
-                <button className="avatar_image_remove" type="button" onClick={handdleRemoveAvatar}>
+                <button
+                    className="avatar_image_remove"
+                    type="button"
+                    onClick={() => setReset(true)}>
                     <MdClear size={28} />
                 </button>
             )}

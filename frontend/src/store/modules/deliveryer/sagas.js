@@ -4,31 +4,7 @@ import { toast } from 'react-toastify';
 import history from '~/services/history';
 import api from '~/services/api';
 
-import {
-    DeliveryerRegisterSuccess,
-    DeliveryerUpdateSuccess,
-    DeliveryerFailture,
-    DeliveryerDeleteSuccess,
-} from './actions';
-
-export function* deliveryerRegister({ payload }) {
-    try {
-        const { name, email, avatar_id } = payload;
-
-        yield call(api.post, 'deliveryers', {
-            name,
-            email,
-            avatar_id,
-        });
-
-        toast.success('Entregador registrado com sucesso!');
-
-        yield put(DeliveryerRegisterSuccess());
-    } catch (error) {
-        toast.error('Erro ao cadastrar o entregador, confira todas as informações.');
-        yield put(DeliveryerFailture());
-    }
-}
+import { DeliveryerUpdateSuccess, DeliveryerFailture, DeliveryerDeleteSuccess } from './actions';
 
 export function* deliveryerUpdate({ payload }) {
     try {
@@ -64,7 +40,6 @@ export function* deliveryerDelete({ payload }) {
 }
 
 export default all([
-    takeLatest('@deliveryer/DELIVERYER_REGISTER_REQUEST', deliveryerRegister),
     takeLatest('@deliveryer/DELIVERYER_UPDATE_REQUEST', deliveryerUpdate),
     takeLatest('@deliveryer/DELIVERYER_UPDATE_PARAMS', updateParams),
     takeLatest('@deliveryer/DELIVERYER_DELETE_REQUEST', deliveryerDelete),

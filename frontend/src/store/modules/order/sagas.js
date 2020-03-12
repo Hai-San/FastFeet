@@ -5,31 +5,11 @@ import history from '~/services/history';
 import api from '~/services/api';
 
 import {
-    OrderRegisterSuccess,
     OrderUpdateSuccess,
     OrderFailture,
     OrderDeleteSuccess,
     OrderCancelSuccess,
 } from './actions';
-
-export function* orderRegister({ payload }) {
-    try {
-        const { product, recipient_id, deliveryer_id } = payload;
-
-        yield call(api.post, 'orders', {
-            product,
-            recipient_id,
-            deliveryer_id,
-        });
-
-        toast.success('Encomenda registrada com sucesso!');
-
-        yield put(OrderRegisterSuccess());
-    } catch (error) {
-        toast.error('Erro ao cadastrar a encomenda, confira todas as informações.');
-        yield put(OrderFailture());
-    }
-}
 
 export function* orderUpdate({ payload }) {
     try {
@@ -83,7 +63,6 @@ export function* orderCancel({ payload }) {
 }
 
 export default all([
-    takeLatest('@order/ORDER_REGISTER_REQUEST', orderRegister),
     takeLatest('@order/ORDER_UPDATE_REQUEST', orderUpdate),
     takeLatest('@order/ORDER_UPDATE_PARAMS', updateParams),
     takeLatest('@order/ORDER_DELETE_REQUEST', orderDelete),

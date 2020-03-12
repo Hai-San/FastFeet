@@ -1,16 +1,3 @@
-export function RecipientRegisterRequest(data) {
-    return {
-        type: '@recipient/RECIPIENT_REGISTER_REQUEST',
-        payload: data,
-    };
-}
-
-export function RecipientRegisterSuccess() {
-    return {
-        type: '@recipient/RECIPIENT_REGISTER_SUCCESS',
-    };
-}
-
 export function RecipientUpdateRequest(data) {
     return {
         type: '@recipient/RECIPIENT_UPDATE_REQUEST',

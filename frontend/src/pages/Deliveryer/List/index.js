@@ -57,11 +57,11 @@ export default function DeliveryerList() {
     }
 
     async function handdleSearch(e) {
-        if (search != e.target.value) {
+        if (search !== e.target.value) {
             setSearch(e.target.value);
         }
 
-        if (page != 1) {
+        if (page !== 1) {
             setPage(1);
         }
     }

@@ -1,20 +1,21 @@
-import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 
 import Input from '~/components/Form/Input';
 import AvatarInput from '~/components/Form/AvatarInput';
-import { DeliveryerRegisterRequest } from '~/store/modules/deliveryer/actions';
 import { Container } from '~/styles/formPages';
 
 export default function DeliveryerRegister() {
     const formRef = useRef(null);
-    const dispatch = useDispatch();
+    const [nameDeliveryer, setNameDeliveryer] = useState('');
+    const [emailDeliveryer, setEmailDeliveryer] = useState('');
+    const [reset, setReset] = useState(false);
 
     async function handleSubmit(data) {
         try {
@@ -30,14 +31,30 @@ export default function DeliveryerRegister() {
             });
 
             const { avatar } = data;
-            const dataFile = new FormData();
-            dataFile.append('file', avatar);
-            const response = await api.post('files', dataFile);
-            const { id, url } = response.data;
 
-            data.avatar_id = id;
+            if (avatar) {
+                const dataFile = new FormData();
+                dataFile.append('file', avatar);
+                const response = await api.post('files', dataFile);
+                const { id } = response.data;
+                data.avatar_id = id;
+            }
 
-            dispatch(DeliveryerRegisterRequest(data));
+            const { name, email, avatar_id = null } = data;
+
+            await api.post('deliveryers', {
+                name,
+                email,
+                avatar_id,
+            });
+
+            setNameDeliveryer('');
+            setEmailDeliveryer('');
+            setReset(true);
+
+            toast.success('Entregador registrado com sucesso!');
+
+            setReset(false);
         } catch (error) {
             const validationErrors = {};
             if (error instanceof Yup.ValidationError) {
@@ -46,6 +63,8 @@ export default function DeliveryerRegister() {
                 });
                 formRef.current.setErrors(validationErrors);
             }
+
+            toast.error('Erro ao cadastrar o entregador, confira todas as informações.');
         }
     }
 
@@ -67,7 +86,7 @@ export default function DeliveryerRegister() {
                 </header>
                 <div className="form_container">
                     <div className="form_container_row center">
-                        <AvatarInput id="avatar" name="avatar" />
+                        <AvatarInput id="avatar" name="avatar" handdleReset={reset} />
                     </div>
                     <div className="form_container_row">
                         <Input
@@ -77,6 +96,10 @@ export default function DeliveryerRegister() {
                             type="text"
                             placeholder="Nome do entregador"
                             labelClass="large_label"
+                            value={nameDeliveryer}
+                            onChange={e => {
+                                setNameDeliveryer(e.target.value);
+                            }}
                         />
                     </div>
                     <div className="form_container_row">
@@ -87,6 +110,10 @@ export default function DeliveryerRegister() {
                             type="email"
                             placeholder="E-mail do entregador"
                             labelClass="large_label"
+                            value={emailDeliveryer}
+                            onChange={e => {
+                                setEmailDeliveryer(e.target.value);
+                            }}
                         />
                     </div>
                 </div>

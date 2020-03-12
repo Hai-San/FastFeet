@@ -1,20 +1,19 @@
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
+import api from '~/services/api';
 import Input from '~/components/Form/Input';
 import InputMask from '~/components/Form/InputMask';
-import { RecipientRegisterRequest } from '~/store/modules/recipient/actions';
 import { Container } from '~/styles/formPages';
 
 export default function RecipientRegister() {
     const formRef = useRef(null);
-    const dispatch = useDispatch();
 
-    async function handleSubmit(data) {
+    async function handleSubmit(data, { reset }) {
         try {
             const schema = Yup.object().shape({
                 name: Yup.string().required('O nome é obrigatório'),
@@ -42,7 +41,13 @@ export default function RecipientRegister() {
                 abortEarly: false,
             });
 
-            dispatch(RecipientRegisterRequest(response));
+            await api.post('recipients', response);
+
+            console.dir(formRef.current);
+
+            formRef.current.reset();
+
+            toast.success('Destinatário registrado com sucesso!');
         } catch (error) {
             const validationErrors = {};
             if (error instanceof Yup.ValidationError) {
@@ -51,6 +56,8 @@ export default function RecipientRegister() {
                 });
                 formRef.current.setErrors(validationErrors);
             }
+
+            toast.error('Erro ao cadastrar o destinatário, confira todas as informações.');
         }
     }
 

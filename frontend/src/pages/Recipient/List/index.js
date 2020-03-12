@@ -55,7 +55,7 @@ export default function RecipientList() {
     }, [page, search, loading]);
 
     function zipcode_format(code) {
-        var regex = /^([\d]{2})\.?([\d]{3})\-?([\d]{3})/;
+        var regex = /^([\d]{2})\.?([\d]{3})-?([\d]{3})/;
         return code.replace(regex, '$1.$2-$3');
     }
 
@@ -64,11 +64,11 @@ export default function RecipientList() {
     }
 
     async function handdleSearch(e) {
-        if (search != e.target.value) {
+        if (search !== e.target.value) {
             setSearch(e.target.value);
         }
 
-        if (page != 1) {
+        if (page !== 1) {
             setPage(1);
         }
     }

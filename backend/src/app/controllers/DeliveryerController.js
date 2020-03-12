@@ -10,7 +10,7 @@ class DeliveryerController {
             email: Yup.string()
                 .email()
                 .required(),
-            avatar_id: Yup.number(),
+            avatar_id: Yup.number().nullable(),
         });
 
         if (!(await schema.isValid(req.body))) {
@@ -104,6 +104,7 @@ class DeliveryerController {
             },
             offset: (page - 1) * perpage,
             limit: perpage,
+            order: [['id', 'DESC']],
             include: [
                 {
                     model: File,
