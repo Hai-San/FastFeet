@@ -4,12 +4,10 @@
 
 <blockquote align="center">“Um verdadeiro mestre é um eterno aprendiz”!</blockquote>
 
-<p align="left">
-  <a href="#rocket-sobre-o-desafio">Sobre o desafio</a>
-  <a href="#layout">Layout</a>
-  <a href="#-entrega">Entrega</a>
-  <a href="#memo-licença">Licença</a>
-</p>
+
+* <a href="#sobre-o-desafio">Sobre o desafio</a>
+* <a href="#licença">Licença</a>
+
 
 ## 🚀 Sobre o desafio
 
