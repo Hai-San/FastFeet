@@ -14,134 +14,125 @@
 
 Aplicação completa (back-end, front-end e Mobile) para uma transportadora fictícia, o FastFeet.
 
-## 📝 Configuração do backend
+## Detalhes do projeto
 
-Primeiro temos que instalar todas as dependencias do back-end.
+* A plataforma utilizada foi windows 10
+* A versão Mobile foi desenvolvida apenas para android
+* O emulador android utilizado foi o que vem junto com o android studio
+    * O emulador pode ser acessado pelo menu "configure -> AVD manager" na tela inicial do android studio.
+    * As Especificações do emulador utilizado:
+        * Nome: Nexus 5X 5.2 1080x1920 420dpi
+        * Modelo: Nexus 5X API 29 x86
+        * Android: Android 10.0 x86
+    * Nas configurações de camera foi utilizado front "none" e back "virtualScene"
 
-1 - Instalar a última versão estavel (LTS) do [Node.js](https://nodejs.org/)
+### 📝 Configuração do backend
 
-2 - Instalar o docker [DOCKER](https://docs.docker.com/)
+1. Instalar a última versão estavel (LTS) do [Node.js](https://nodejs.org/)
 
-3 - Criamos um container do postgres [Postgres](https://hub.docker.com/_/postgres)
+2. Instalar o docker [DOCKER](https://docs.docker.com/)
+
+3. Criamos um container do postgres [Postgres](https://hub.docker.com/_/postgres)
     - docker run --name databasename -e POSTGRES_PASSWORD=databasepass -p 5432:5432 -d postgres
     - Baixe o postbird para administrar seu container postgres por uma interface visual
     - Crie um banco de dados com o nome fastfeet ou como preferir
 
-4 - Criamos um container do Redis [Redis](https://hub.docker.com/_/redis)
+4. Criamos um container do Redis [Redis](https://hub.docker.com/_/redis)
     - docker run --name databasename -p 6379:6379 -d -t redis:alpine
 
-5 - Instalar o YARN ou se preferir pode utilizar o NPM que ja vem isntalado com o Node, porém o tutorial será feito baseado no yarn.
+5. Instalar o YARN ou se preferir pode utilizar o NPM que ja vem isntalado com o Node, porém o tutorial será feito baseado no yarn.
 
-6 - Na linha de comando, dentro da pasta backend nós executamos "yarn" para instalar todos os pacotes
-
-    ```bash
-    $ yarn
+6. No terminal, dentro da pasta backend nós executamos "yarn" para instalar todos os pacotes
+    ```sh
+    yarn
     ```
-7 - Criamos o arquivo .env seguindo a estrutura do arquivo .env.example e preenchemos as variaveis que estão vazias.
+7. Crie o arquivo {.env} seguindo a estrutura do arquivo {.env.example} e preencha as variaveis que estão vazias.
     - Para o sistema de e-mails foi utilizado o [Mailtrap](https://mailtrap.io/)
 
-8 - Criamos as tabelas dentro do banco de dados postgres:
-
+8. Crie as tabelas dentro do banco de dados postgres:
     ```bash
-    $ yarn sequelize db:migrate
+    yarn sequelize db:migrate
     ```
-9 - Cadastramos o Admin padrão do sistema:
-
+9. Cadastre o Admin padrão do sistema:
     ```bash
-    $ yarn sequelize db:seed:all
+    yarn sequelize db:seed:all
     ```
 
-## 📝 Iniciando a aplicação backend
-Agora precisamos iniciar a conecção do backend com o banco postgres:
-
+### 📝 Iniciando a aplicação backend
+1. Inicie a conecção do backend com o banco postgres:
     ```bash
-    $ yarn dev
+    yarn dev
     ```
-
-Abra outro terminal para iniciar o sistema de gerenciamento de envio de e-mails em filas utilizando o redis.
+2. Abra um segundo terminal para iniciar o sistema de gerenciamento de envio de e-mails em filas utilizando o redis.
     ```bash
-    $ yarn queue
+    yarn queue
     ```
 Caso de algum problema de conexao, tenha certeza que todos os bancos estão ativos no docker usando o seguinte comando:
+```bash
+docker ps -a
+```
+Este comando lista os containers ativos e inativos, na coluna STATUS se tiver com "Up" e o tempo de atividade então está tudo certo. Se a coluna estiver com "exited" então nós devemos startar o container utilizando o ID na coluna CONTAINER ID:
+```bash
+docker start <containerid>
+```
 
-    ```bash
-    $ docker ps -a
-    ```
-    Este comando lista os containers ativos e inativos, na coluna STATUS se tiver com "Up" e o tempo de atividade então está tudo certo. Se a coluna estiver com "exited" então nós devemos startar o container utilizando o ID na coluna CONTAINER ID:
+A partir de agora, se tudo ocorreu sem problemas nós já podemos ir para a configuração do front-end
 
-    ```bash
-    $ docker start <containerid>
-    ```
-
-## 📝 Configuração do front-end
+### 📝 Configuração do front-end
 
 Dentro da pasta frontend.
 
-No terminal execute "yarn" para instalar todos os pacotes
-
+1. No terminal execute "yarn" para instalar todos os pacotes
     ```bash
-    $ yarn
+    yarn
     ```
-Crie um arquivo .env e aplique as mesmas variaveis no arquivo .env.example
+2. Crie um arquivo .env e aplique as mesmas variaveis no arquivo .env.example
 
-Agora inicie a aplicação com o seguinte comando:
-
+3. Agora inicie a aplicação com o seguinte comando:
     ```bash
-    $ yarn start
+    yarn start
     ```
 
-## 📝 Instalação Mobile
+### 📝 Configuração do mobile
 
-PS: A aplicação mobile foi feita apenas para Android. 
- - Todos os testes foram feito utilizando o AVD manager do android studio
- - O AVD utilizado foi:
-    - Nexus 5X API 29 x86
-    - Nexus 5X 5.2 1080x1920 420dpi
-    - Android 10.0 x86
-- Nas configurações de camera foi utilizado front "none" e back "virtualScene"
-
-Antes de qualquer coisa inicie o emulador ou conecte o seu dispositivo no computador.
-
-Confira a URL da api no arquivo api.js dentro de src/services
-
-Inicie o android debug bridge:
-
+1. Antes de qualquer coisa inicie o emulador ou conecte o seu dispositivo no computador.
+2. Confira a URL da api no arquivo api.js dentro de src/services
+3. Inicie o android debug bridge:
     ```bash
-    $ adb devices
+    adb devices
     ```
-Este comando inicia o daemon caso não esteja ativo e mostra os devices ativos para conexão.
+    Este comando inicia o daemon caso não esteja ativo e mostra os devices ativos para conexão.
 
-Agora rode o seguinte comando para liberar as portas que o emulador precisa acessar.
-
+4. Agora rode o seguinte comando para liberar as portas que o emulador precisa acessar.
     ```bash
-    $ adb reverse tcp:8081 tcp:8081
+    adb reverse tcp:8081 tcp:8081
     ```
-No meu caso eu libero as seguintes portas:
+    No meu caso eu libero as seguintes portas:
     ```bash
-    $ adb reverse tcp:8081 tcp:8081
-    $ adb reverse tcp:9090 tcp:9090
-    $ adb reverse tcp:3334 tcp:3334
+    adb reverse tcp:8081 tcp:8081
+    adb reverse tcp:9090 tcp:9090
+    adb reverse tcp:3334 tcp:3334
     ```
 
-Dentro da pasta mobile.
+    ##### Dentro da pasta mobile.
+    
 
-No terminal execute "yarn" para instalar todos os pacotes
-
+5. No terminal execute "yarn" para instalar todos os pacotes
     ```bash
-    $ yarn
+    yarn
     ```
-Agora para instalar a aplicação no emulador.
+6. Agora para instalar a aplicação no emulador.
     ```bash
-    $ react-native run-android
+    react-native run-android
     ```
-Caso ocorra algum problema a instalação, entre pelo terminal na pasta android e execute o seguinte comando:
+7. Depois que a aplicação estiver instalada e precisar iniciar a conexão novamente utilize:
     ```bash
-    $ ./gradlew clean
+    react-native start
     ```
-Depois que a aplicação estiver instalada e precisar iniciar a conexão novamente utilize:
-    ```bash
-    $ react-native start
-    ```
+PS: Caso ocorra algum problema a instalação, entre pelo terminal na pasta android e execute o seguinte comando:
+```bash
+./gradlew clean
+```
 
 ## 📝 Licença
 
