@@ -5,16 +5,15 @@
 <p align="center">“Um verdadeiro mestre é um eterno aprendiz”!</p>
 
 
+<h2>Sobre o desafio</h2>
+
+Aplicação completa (back-end, front-end e Mobile) para uma transportadora fictícia, o FastFeet.
+
 * <a href="#detalhes">Detalhes do projeto</a>
 * <a href="#back">Back-end</a>
 * <a href="#front">Front-end</a>
 * <a href="#mobile">Mobile</a>
 * <a href="#licença">Licença</a>
-
-
-<h2>Sobre o desafio</h2>
-
-Aplicação completa (back-end, front-end e Mobile) para uma transportadora fictícia, o FastFeet.
 
 <h3>
     <a id="user-content-detalhes" class="anchor" aria-hidden="true" href="#detalhes">
@@ -103,7 +102,7 @@ Dentro da pasta frontend.
     ```bash
     yarn
     ```
-2. Crie um arquivo .env e aplique as mesmas variaveis no arquivo .env.example
+2. Confira a URL da api no arquivo api.js dentro de src/services
 
 3. Agora inicie a aplicação com o seguinte comando:
     ```bash

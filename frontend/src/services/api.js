@@ -3,7 +3,7 @@ import 'dotenv/config';
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.API_URL,
+    baseURL: 'http://localhost:3334',
 });
 
 export default api;
