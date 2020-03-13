@@ -29,7 +29,7 @@ export function* deliveryerDelete({ payload }) {
     try {
         const { id } = payload;
 
-        yield call(api.delete, `deliveryers/${id}`);
+        yield call(api.delete, `deliveryer/${id}`);
 
         toast.success('Entregador deletado com sucesso!');
         yield put(DeliveryerDeleteSuccess());

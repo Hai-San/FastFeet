@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Text, ActivityIndicator } from 'react-native';
+import { Text, ActivityIndicator, Alert } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StackActions } from '@react-navigation/native';
@@ -32,32 +32,55 @@ export default function OrderConfirm({ route, navigation }) {
     }
 
     async function sendCapture() {
-        setLoading(true);
+        try {
+            setLoading(true);
 
-        let data = new FormData();
+            let data = new FormData();
 
-        data.append('file', {
-            uri: file,
-            name: file.split('/').pop(),
-            type: 'image/jpg',
-        });
+            data.append('file', {
+                uri: file,
+                name: file.split('/').pop(),
+                type: 'image/jpg',
+            });
 
-        const fileResponse = await api.post('files', data, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        });
+            const fileResponse = await api.post('files', data, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
 
-        const orderResponse = await api.put(`deliveryer/order/${order.id}/end`, {
-            signature_id: fileResponse.data.id,
-        });
+            const orderResponse = await api.put(`deliveryer/order/${order.id}/end`, {
+                signature_id: fileResponse.data.id,
+            });
 
-        setLoading(false);
+            setLoading(false);
 
-        navigation.dispatch({
-            ...StackActions.replace('OrderDetails', { order: orderResponse.data }),
-            source: parentKey,
-        });
+            navigation.dispatch({
+                ...StackActions.replace('OrderDetails', { order: orderResponse.data }),
+                source: parentKey,
+            });
 
-        navigation.pop(1);
+            navigation.pop(1);
+        } catch (error) {
+            Alert.alert(
+                'Ocorreu um problema ao finalizar a entrega',
+                'Verifique com os administradores se esta entrega ainda esta disponivel ou atualize sua lista de entregas',
+                [
+                    {
+                        text: 'Atualizar lista de entregas',
+                        onPress: () => {
+                            navigation.reset({
+                                index: 0,
+                                routes: [
+                                    {
+                                        name: 'OrdersList',
+                                    },
+                                ],
+                            });
+                        },
+                    },
+                ],
+                { cancelable: false }
+            );
+        }
     }
 
     function handdleDeleteCapture() {

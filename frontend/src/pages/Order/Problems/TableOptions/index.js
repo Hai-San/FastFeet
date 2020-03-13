@@ -62,7 +62,7 @@ function TableOptions({ problem }) {
                         <MdVisibility size={18} />
                         <span>Visualizar</span>
                     </button>
-                    {!problem.order.canceled_at && (
+                    {!problem.order.canceled_at && !problem.order.end_date && (
                         <button
                             type="button"
                             className="tableOptions_list_button tableOptions_list_button--delete"

@@ -48,7 +48,7 @@ Aplicação completa (back-end, front-end e Mobile) para uma transportadora fict
     docker run --name databasename -e POSTGRES_PASSWORD=databasepass -p 5432:5432 -d postgres
     ```
     - Baixe o postbird para administrar seu container postgres por uma interface visual
-    - Crie um banco de dados com o nome fastfeet ou como preferir
+    - Crie um banco de dados com o nome fastfeet ou como preferir, isso reflete no arquivo .env criado posteriormente.
 
 4. Criamos um container do Redis [Redis](https://hub.docker.com/_/redis)
     ```bash

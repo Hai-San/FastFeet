@@ -21,6 +21,7 @@ import { PageContainer } from './styles';
 export default function DeliveryerList() {
     const dispatch = useDispatch();
     const [deliveryers, setDeliveryers] = useState([]);
+    const [empty, setEmpty] = useState(false);
     const [search, setSearch] = useState([]);
     const [page, setPage] = useState(1);
     const [deliveryersCount, setDeliveryersCount] = useState(0);
@@ -39,12 +40,18 @@ export default function DeliveryerList() {
 
             setDeliveryersCount(response.data.count);
 
-            if (response.data.rows.length <= 0 && page > 1) {
-                setPage(page - 1);
-                return null;
-            }
+            if (response.data.rows.length > 0) {
+                setEmpty(false);
+                setDeliveryers(response.data.rows);
+            } else {
+                if (page > 1) {
+                    setPage(page - 1);
+                    return null;
+                }
 
-            setDeliveryers(response.data.rows);
+                setEmpty(true);
+                setDeliveryers([]);
+            }
         }
 
         if (!loading) {
@@ -84,7 +91,7 @@ export default function DeliveryerList() {
             <Container>
                 <h1>Gerenciando entregadores</h1>
                 <div className="page_header">
-                    {deliveryers.length > 0 ? (
+                    {!empty || search.length > 0 ? (
                         <Form>
                             <MdSearch size={22} />
                             <Input
@@ -96,14 +103,14 @@ export default function DeliveryerList() {
                             />
                         </Form>
                     ) : (
-                        <h2>Nenhum entregador foi cadastrado</h2>
+                        empty && <h2>Nenhum entregador foi cadastrado</h2>
                     )}
                     <Link to="/entregadores/cadastro">
                         <MdAdd size={24} />
                         <span>Cadastrar</span>
                     </Link>
                 </div>
-                {deliveryers.length > 0 && (
+                {deliveryers.length > 0 ? (
                     <>
                         <Table>
                             <thead>
@@ -168,6 +175,8 @@ export default function DeliveryerList() {
                             showTitle={false}
                         />
                     </>
+                ) : (
+                    empty && search.length > 0 && <h2>Sua busca não retornou nenhum resultado</h2>
                 )}
             </Container>
         </PageContainer>

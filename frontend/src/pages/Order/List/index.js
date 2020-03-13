@@ -18,6 +18,7 @@ import { PageContainer } from './styles';
 
 export default function OrderList() {
     const [orders, setOrders] = useState([]);
+    const [empty, setEmpty] = useState(false);
     const [search, setSearch] = useState([]);
     const [page, setPage] = useState(1);
     const [ordersCount, setOrdersCount] = useState(0);
@@ -36,38 +37,49 @@ export default function OrderList() {
 
             setOrdersCount(response.data.count);
 
-            if (response.data.rows.length <= 0 && page > 1) {
-                setPage(page - 1);
-                return null;
+            if (response.data.rows.length > 0) {
+                setEmpty(false);
+
+                const data = response.data.rows.map(order => {
+                    let status = 'pendente';
+
+                    if (order.canceled_at) {
+                        status = 'cancelada';
+                    } else if (order.start_date && order.end_date) {
+                        status = 'entregue';
+                    } else if (order.start_date) {
+                        status = 'retirada';
+                    }
+
+                    if (order.canceled_at) {
+                        order.canceled_at_formated = format(parseISO(order.canceled_at), 'd/MM/y');
+                    }
+
+                    if (order.start_date) {
+                        order.start_date_formated = format(parseISO(order.start_date), 'd/MM/y');
+                    }
+
+                    if (order.end_date) {
+                        order.end_date_formated = format(parseISO(order.end_date), 'd/MM/y');
+                    }
+
+                    const zip_code_formated = zipcode_format(order.recipient.zip_code.toString());
+
+                    order.recipient.zip_code_formated = zip_code_formated;
+
+                    return { ...order, status };
+                });
+
+                setOrders(data);
+            } else {
+                if (page > 1) {
+                    setPage(page - 1);
+                    return null;
+                }
+
+                setEmpty(true);
+                setOrders([]);
             }
-
-            const data = response.data.rows.map(order => {
-                let status = 'pendente';
-
-                if (order.canceled_at) {
-                    status = 'cancelada';
-                } else if (order.start_date && order.end_date) {
-                    status = 'entregue';
-                } else if (order.start_date) {
-                    status = 'retirada';
-                }
-
-                if (order.canceled_at) {
-                    order.canceled_at_formated = format(parseISO(order.canceled_at), 'd/MM/y');
-                }
-
-                if (order.start_date) {
-                    order.start_date_formated = format(parseISO(order.start_date), 'd/MM/y');
-                }
-
-                if (order.end_date) {
-                    order.end_date_formated = format(parseISO(order.end_date), 'd/MM/y');
-                }
-
-                return { ...order, status };
-            });
-
-            setOrders(data);
         }
 
         if (!loading) {
@@ -89,6 +101,11 @@ export default function OrderList() {
         }
     }
 
+    function zipcode_format(code) {
+        var regex = /^([\d]{2})\.?([\d]{3})-?([\d]{3})/;
+        return code.replace(regex, '$1.$2-$3');
+    }
+
     return (
         <PageContainer>
             <div className="loadingScreen" data-loading={loading}>
@@ -97,7 +114,7 @@ export default function OrderList() {
             <Container>
                 <h1>Gerenciando encomendas</h1>
                 <div className="page_header">
-                    {orders.length > 0 ? (
+                    {!empty || search.length > 0 ? (
                         <Form>
                             <MdSearch size={22} />
                             <Input
@@ -109,7 +126,7 @@ export default function OrderList() {
                             />
                         </Form>
                     ) : (
-                        <h2>Nenhuma encomenda foi cadastrada</h2>
+                        empty && <h2>Nenhuma encomenda foi cadastrada</h2>
                     )}
 
                     <Link to="/encomendas/cadastro">
@@ -117,12 +134,13 @@ export default function OrderList() {
                         <span>Cadastrar</span>
                     </Link>
                 </div>
-                {orders.length > 0 && (
+                {orders.length > 0 ? (
                     <>
                         <Table>
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Produto</th>
                                     <th>Destinatário</th>
                                     <th>Entregador</th>
                                     <th>Cidade</th>
@@ -135,6 +153,7 @@ export default function OrderList() {
                                 {orders.map(order => (
                                     <tr key={String(order.id)}>
                                         <td>#{order.id}</td>
+                                        <td>{order.product}</td>
                                         <td>{order.recipient.name}</td>
                                         <td>
                                             <div className="orderDeliveryer">
@@ -189,6 +208,8 @@ export default function OrderList() {
                             showTitle={false}
                         />
                     </>
+                ) : (
+                    empty && search.length > 0 && <h2>Sua busca não retornou nenhum resultado</h2>
                 )}
             </Container>
         </PageContainer>

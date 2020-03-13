@@ -62,10 +62,15 @@ export const List = styled.FlatList.attrs({
     padding: 0px 20px;
 `;
 
-export const Empty = styled.Text`
+export const Empty = styled.View`
+    margin-top: 100px;
+    align-items: center;
+`;
+
+export const EmptyText = styled.Text`
     font-size: 18px;
     font-weight: 700;
     text-align: center;
     color: ${colors.purple};
-    margin-top: 100px;
+    margin-bottom: 25px;
 `;

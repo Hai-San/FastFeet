@@ -10,7 +10,19 @@ import api from '~/services/api';
 import { signOut } from '~/store/modules/auth/actions';
 import OrderListItem from '~/components/OrderListItem';
 
-import { Container, Deliveryer, Avatar, ViewButton, Title, Name, ListHeader, ListTitle, List, Empty } from './styles';
+import {
+    Container,
+    Deliveryer,
+    Avatar,
+    ViewButton,
+    Title,
+    Name,
+    ListHeader,
+    ListTitle,
+    List,
+    Empty,
+    EmptyText,
+} from './styles';
 import colors from '~/styles/colors';
 
 const filterStyle = {
@@ -163,13 +175,20 @@ export default function OrdersList({ navigation }) {
                 <List
                     data={orders}
                     keyExtractor={item => String(item.id)}
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handdleLoad} />}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => setPage(1)} />}
                     renderItem={({ item }) => <OrderListItem data={item} navigation={navigation} />}
                     onEndReachedThreshold={0.05}
                     onEndReached={handdlePagination}
                 />
             ) : (
-                !refreshing && <Empty>Nenhuma encomenda registrada</Empty>
+                !refreshing && (
+                    <Empty>
+                        <EmptyText>Nenhuma encomenda registrada</EmptyText>
+                        <RectButton onPress={handdleLoad}>
+                            <Icon name="refresh" size={35} color={colors.green} />
+                        </RectButton>
+                    </Empty>
+                )
             )}
         </Container>
     );

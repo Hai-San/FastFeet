@@ -17,6 +17,7 @@ import { PageContainer } from './styles';
 export default function RecipientList() {
     const dispatch = useDispatch();
     const [recipients, setRecipients] = useState([]);
+    const [empty, setEmpty] = useState(false);
     const [search, setSearch] = useState([]);
     const [page, setPage] = useState(1);
     const [RecipientCount, setRecipientsCount] = useState(0);
@@ -35,18 +36,25 @@ export default function RecipientList() {
 
             setRecipientsCount(response.data.count);
 
-            if (response.data.rows.length <= 0 && page > 1) {
-                setPage(page - 1);
-                return null;
+            if (response.data.rows.length > 0) {
+                setEmpty(false);
+
+                const data = response.data.rows.map(recipient => {
+                    const zip_code_formated = zipcode_format(recipient.zip_code.toString());
+
+                    return { ...recipient, zip_code_formated };
+                });
+
+                setRecipients(data);
+            } else {
+                if (page > 1) {
+                    setPage(page - 1);
+                    return null;
+                }
+
+                setEmpty(true);
+                setRecipients([]);
             }
-
-            const data = response.data.rows.map(recipient => {
-                const zip_code_formated = zipcode_format(recipient.zip_code.toString());
-
-                return { ...recipient, zip_code_formated };
-            });
-
-            setRecipients(data);
         }
 
         if (!loading) {
@@ -91,7 +99,7 @@ export default function RecipientList() {
             <Container>
                 <h1>Gerenciando destinatários</h1>
                 <div className="page_header">
-                    {recipients.length > 0 ? (
+                    {!empty || search.length > 0 ? (
                         <Form>
                             <MdSearch size={22} />
                             <Input
@@ -103,14 +111,14 @@ export default function RecipientList() {
                             />
                         </Form>
                     ) : (
-                        <h2>Nenhum destinatário foi cadastrado</h2>
+                        empty && <h2>Nenhum destinatário foi cadastrado</h2>
                     )}
                     <Link to="/destinatarios/cadastro">
                         <MdAdd size={24} />
                         <span>Cadastrar</span>
                     </Link>
                 </div>
-                {recipients.length > 0 && (
+                {recipients.length > 0 ? (
                     <>
                         <Table>
                             <thead>
@@ -145,6 +153,8 @@ export default function RecipientList() {
                             showTitle={false}
                         />
                     </>
+                ) : (
+                    empty && search.length > 0 && <h2>Sua busca não retornou nenhum resultado</h2>
                 )}
             </Container>
         </PageContainer>

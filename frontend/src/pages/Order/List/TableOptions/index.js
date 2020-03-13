@@ -91,11 +91,11 @@ function OrderMenu({ order }) {
                     <div>
                         <h4>Informações da encomenda</h4>
                         <address>
-                            {order.recipient.street}
+                            {order.recipient.address}, {order.recipient.address_number}
                             <br />
                             {order.recipient.city} - {order.recipient.state}
                             <br />
-                            {order.recipient.zip_code}
+                            {order.recipient.zip_code_formated}
                         </address>
                     </div>
                     {(order.start_date || order.end_date || order.canceled_at) && (

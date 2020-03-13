@@ -11,6 +11,3 @@
     - yup: Utilizado para tratamentos de erros
     - express: Utilizado para fazer o roteamento
     - cors: Permite que outras aplicações acessem a API
-
-## Start fila redis
-node src/queue.js
