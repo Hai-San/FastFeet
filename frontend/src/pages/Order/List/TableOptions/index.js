@@ -66,13 +66,15 @@ function OrderMenu({ order }) {
                         <MdVisibility size={18} />
                         <span>Visualizar</span>
                     </button>
-                    <button
-                        type="button"
-                        className="tableOptions_list_button tableOptions_list_button--edit"
-                        onClick={handdleEdit}>
-                        <MdCreate size={18} />
-                        <span>Editar</span>
-                    </button>
+                    {!order.canceled_at && !order.end_date && (
+                        <button
+                            type="button"
+                            className="tableOptions_list_button tableOptions_list_button--edit"
+                            onClick={handdleEdit}>
+                            <MdCreate size={18} />
+                            <span>Editar</span>
+                        </button>
+                    )}
                     <button
                         type="button"
                         className="tableOptions_list_button tableOptions_list_button--delete"

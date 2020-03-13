@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { getDay, isBefore, isAfter } from 'date-fns';
 
 import Order from '../models/Order';
@@ -13,18 +12,6 @@ import Queue from '../../lib/Queue';
 
 class OrderController {
     async store(req, res) {
-        const schema = Yup.object().shape({
-            product: Yup.string().required(),
-            recipient_id: Yup.number().required(),
-            deliveryer_id: Yup.number().required(),
-        });
-
-        if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({
-                error: 'Validation fails',
-            });
-        }
-
         const recipient = await Recipient.findByPk(req.body.recipient_id);
 
         if (!recipient) {
@@ -66,18 +53,6 @@ class OrderController {
     }
 
     async update(req, res) {
-        const schema = Yup.object().shape({
-            product: Yup.string(),
-            recipient_id: Yup.number(),
-            deliveryer_id: Yup.number(),
-        });
-
-        if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({
-                error: 'validation fails',
-            });
-        }
-
         const { id } = req.params;
         const orderDatabase = await Order.findByPk(id);
 
@@ -165,7 +140,7 @@ class OrderController {
                         end: '13:00',
                     },
                     {
-                        start: '14:30',
+                        start: '14:00',
                         end: '22:00',
                     },
                 ],

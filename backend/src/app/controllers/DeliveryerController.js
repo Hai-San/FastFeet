@@ -1,25 +1,9 @@
-import * as Yup from 'yup';
-
 import Deliveryer from '../models/Deliveryer';
 import File from '../models/File';
 import Order from '../models/Order';
 
 class DeliveryerController {
     async store(req, res) {
-        const schema = Yup.object().shape({
-            name: Yup.string().required(),
-            email: Yup.string()
-                .email()
-                .required(),
-            avatar_id: Yup.number().nullable(),
-        });
-
-        if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({
-                error: 'Validation fails',
-            });
-        }
-
         const deliveryerExists = await Deliveryer.findOne({
             where: {
                 email: req.body.email,
@@ -45,17 +29,6 @@ class DeliveryerController {
     }
 
     async update(req, res) {
-        const schema = Yup.object().shape({
-            name: Yup.string(),
-            email: Yup.string().email(),
-        });
-
-        if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({
-                error: 'validation fails',
-            });
-        }
-
         const { id } = req.params;
         const deliveryerDatabase = await Deliveryer.findByPk(id);
 
