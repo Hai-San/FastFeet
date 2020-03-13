@@ -141,7 +141,7 @@ export default function OrderDetails({ route, navigation }) {
                             </MenuButton>
                         ) : null}
 
-                        {order.start_date ? (
+                        {order.start_date && !order.canceled_at ? (
                             <>
                                 <Bar />
                                 <MenuButton

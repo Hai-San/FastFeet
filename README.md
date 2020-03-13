@@ -139,7 +139,7 @@ Apenas na parte do emulador eu utilizei outra opção, como foi informado no ini
     ```bash
     adb reverse tcp:8081 tcp:8081
     adb reverse tcp:9090 tcp:9090
-    adb reverse tcp:3334 tcp:3334
+    adb reverse tcp:3335 tcp:3335
     ```
 
     ##### Dentro da pasta mobile.

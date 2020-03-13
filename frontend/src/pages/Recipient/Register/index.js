@@ -43,8 +43,6 @@ export default function RecipientRegister() {
 
             await api.post('recipients', response);
 
-            console.dir(formRef.current);
-
             formRef.current.reset();
 
             toast.success('Destinatário registrado com sucesso!');

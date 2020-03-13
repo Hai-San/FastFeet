@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import Recipient from '../models/Recipient';
+import Order from '../models/Order';
 
 class RecipientController {
     async store(req, res) {
@@ -97,6 +98,19 @@ class RecipientController {
         if (!recipientDatabase) {
             return res.status(400).json({
                 error: 'Recipient do not exists',
+            });
+        }
+
+        const recipientOrders = await Order.findOne({
+            where: {
+                recipient_id: req.params.id,
+            },
+        });
+
+        if (recipientOrders) {
+            return res.status(406).json({
+                error:
+                    'This recipient has orders under your name and cannot be deleted.',
             });
         }
 

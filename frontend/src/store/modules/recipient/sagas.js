@@ -36,7 +36,7 @@ export function* recipientDelete({ payload }) {
         toast.success('Destinatário deletado com sucesso!');
         yield put(RecipientDeleteSuccess());
     } catch (error) {
-        toast.error('Erro ao deletar o destinatário');
+        toast.error(`Erro ao deletar o destinatário: ${error.response.data.error}`);
         yield put(RecipientFailture());
     }
 }

@@ -10,7 +10,7 @@ import OrderListProblem from '~/components/OrderListProblem';
 export default function ProblemView({ route }) {
     const { order = {} } = route.params;
     const [problems, setProblems] = useState([]);
-    const [refreshing, setRefreshing] = useState(false);
+    const [refreshing, setRefreshing] = useState(true);
 
     useEffect(() => {
         async function loadProblems() {
@@ -19,7 +19,10 @@ export default function ProblemView({ route }) {
             setProblems(response.data);
             setRefreshing(false);
         }
-        loadProblems();
+
+        if (refreshing) {
+            loadProblems();
+        }
     }, [refreshing]);
 
     function handdleRefresh() {
@@ -39,7 +42,7 @@ export default function ProblemView({ route }) {
                         renderItem={({ item }) => <OrderListProblem data={item} />}
                     />
                 ) : (
-                    <Empty>Nenhum problema foi registrado!</Empty>
+                    !refreshing && <Empty>Nenhum problema foi registrado!</Empty>
                 )}
             </Container>
         </Background>

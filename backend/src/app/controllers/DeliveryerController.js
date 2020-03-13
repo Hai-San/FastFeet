@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 
 import Deliveryer from '../models/Deliveryer';
 import File from '../models/File';
+import Order from '../models/Order';
 
 class DeliveryerController {
     async store(req, res) {
@@ -126,9 +127,24 @@ class DeliveryerController {
             });
         }
 
+        const deliveryerOrders = await Order.findOne({
+            where: {
+                deliveryer_id: req.params.id,
+            },
+        });
+
+        if (deliveryerOrders) {
+            return res.status(406).json({
+                error:
+                    'This deliveryer has orders under your name and cannot be deleted.',
+            });
+        }
+
         deliveryerDatabase.destroy();
 
-        return res.json('Deliveryer has deleted');
+        return res.json({
+            message: 'Deliveryer has deleted',
+        });
     }
 }
 

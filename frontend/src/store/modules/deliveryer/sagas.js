@@ -31,10 +31,10 @@ export function* deliveryerDelete({ payload }) {
 
         yield call(api.delete, `deliveryers/${id}`);
 
-        toast.success('Encomenda deletada com sucesso!');
+        toast.success('Entregador deletado com sucesso!');
         yield put(DeliveryerDeleteSuccess());
     } catch (error) {
-        toast.error('Erro ao deletar a encomenda');
+        toast.error(`Erro ao deletar o entregador: ${error.response.data.error}`);
         yield put(DeliveryerFailture());
     }
 }

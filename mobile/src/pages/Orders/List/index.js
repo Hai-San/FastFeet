@@ -74,7 +74,7 @@ export default function OrdersList({ navigation }) {
 
     const [filter, setFilter] = useState('');
     const [orders, setOrders] = useState([]);
-    const [refreshing, setRefreshing] = useState(false);
+    const [refreshing, setRefreshing] = useState(true);
     const [page, setPage] = useState(1);
     const [perpage] = useState(5);
     const [totalOrders, setTotalOrders] = useState(0);
@@ -169,7 +169,7 @@ export default function OrdersList({ navigation }) {
                     onEndReached={handdlePagination}
                 />
             ) : (
-                <Empty>Nenhuma encomenda registrada</Empty>
+                !refreshing && <Empty>Nenhuma encomenda registrada</Empty>
             )}
         </Container>
     );
