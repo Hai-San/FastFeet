@@ -81,7 +81,7 @@ export default function OrdersList({ navigation }) {
     const filterRef = useRef(null);
 
     async function loadOrders() {
-        const response = await api.get(`deliveryer/${deliveryer.id}/orders`, {
+        const response = await api.get(`deliveryer/orders`, {
             params: {
                 status: filter,
                 page,

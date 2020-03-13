@@ -3,27 +3,9 @@ import Order from '../models/Order';
 
 class RecipientController {
     async store(req, res) {
-        const {
-            id,
-            name,
-            address,
-            address_number,
-            complement,
-            state,
-            city,
-            zip_code,
-        } = await Recipient.create(req.body);
+        const response = await Recipient.create(req.body);
 
-        return res.json({
-            id,
-            name,
-            address,
-            address_number,
-            complement,
-            state,
-            city,
-            zip_code,
-        });
+        return res.json(response);
     }
 
     async update(req, res) {
@@ -37,27 +19,9 @@ class RecipientController {
             });
         }
 
-        const {
-            id,
-            name,
-            address,
-            address_number,
-            complement,
-            state,
-            city,
-            zip_code,
-        } = await recipient.update(req.body);
+        const response = await recipient.update(req.body);
 
-        return res.json({
-            id,
-            name,
-            address,
-            address_number,
-            complement,
-            state,
-            city,
-            zip_code,
-        });
+        return res.json(response);
     }
 
     async show(req, res) {

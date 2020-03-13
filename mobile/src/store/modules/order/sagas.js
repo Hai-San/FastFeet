@@ -8,7 +8,7 @@ export function* orderStart({ payload }) {
     try {
         const { id } = payload;
 
-        yield call(api.put, `orders/${id}/start`);
+        yield call(api.put, `deliveryer/order/${id}/start`);
 
         yield put(orderStartSuccess());
     } catch (error) {

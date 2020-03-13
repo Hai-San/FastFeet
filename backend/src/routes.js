@@ -76,11 +76,17 @@ routes.put(
     validateDeliveryerUpdate,
     DeliveryerController.update
 );
-routes.delete('/deliveryers/:id', DeliveryerController.delete);
+routes.delete('/deliveryer/:id', DeliveryerController.delete);
 
-routes.get('/deliveryer/:id/orders', DeliveryerOrderListController.show);
-routes.put('/orders/:orderid/start', DeliveryerOrderStartController.update);
-routes.put('/orders/:orderid/end', DeliveryerOrderEndController.update);
+routes.get('/deliveryer/orders', DeliveryerOrderListController.show);
+routes.put(
+    '/deliveryer/order/:orderid/start',
+    DeliveryerOrderStartController.update
+);
+routes.put(
+    '/deliveryer/order/:orderid/end',
+    DeliveryerOrderEndController.update
+);
 
 routes.post('/recipients', validateRecipientStore, RecipientController.store);
 routes.get('/recipients', searchMiddleware, RecipientController.show);

@@ -46,7 +46,7 @@ export default function OrderConfirm({ route, navigation }) {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
 
-        const orderResponse = await api.put(`orders/${order.id}/end`, {
+        const orderResponse = await api.put(`deliveryer/order/${order.id}/end`, {
             signature_id: fileResponse.data.id,
         });
 
