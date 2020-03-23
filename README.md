@@ -22,7 +22,7 @@ Aplicação completa (back-end, front-end e Mobile) para uma transportadora fict
     Detalhes do projeto
 </h3>
 
-* A plataforma utilizada foi windows 10
+* A plataforma utilizada para desenvolvimento foi windows 10
 * A versão Mobile foi desenvolvida apenas para android
 * O emulador android utilizado foi o que vem junto com o android studio
     * O emulador pode ser acessado pelo menu "configure -> AVD manager" na tela inicial do android studio.
@@ -55,7 +55,7 @@ Aplicação completa (back-end, front-end e Mobile) para uma transportadora fict
     docker run --name databasename -p 6379:6379 -d -t redis:alpine
     ```
 
-5. Instalar o YARN ou se preferir pode utilizar o NPM que ja vem isntalado com o Node, porém o tutorial será feito baseado no yarn.
+5. Instalar o YARN ou se preferir pode utilizar o NPM que ja vem isntalado com o Node.
 
 6. No terminal, dentro da pasta backend nós executamos "yarn" para instalar todos os pacotes
     ```sh
