@@ -16,7 +16,7 @@ export default function OrderRegister() {
     const [recipientOptions, setRecipientOptions] = useState([]);
     const [deliveryerOptions, setDeliveryerOptions] = useState([]);
 
-    async function handleSubmit(data) {
+    async function handleSubmit(data, { reset }) {
         try {
             const schema = Yup.object().shape({
                 product: Yup.string().required('O nome do produto é obrigatório'),
@@ -35,6 +35,8 @@ export default function OrderRegister() {
                 recipient_id,
                 deliveryer_id,
             });
+
+            reset();
 
             toast.success('Encomenda registrada com sucesso!');
         } catch (error) {

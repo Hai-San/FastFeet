@@ -43,7 +43,11 @@ export default function RecipientRegister() {
 
             await api.post('recipients', response);
 
-            formRef.current.reset();
+            const zipInput = formRef.current.getFieldRef('zip_code');
+
+            zipInput.setInputValue('');
+
+            reset();
 
             toast.success('Destinatário registrado com sucesso!');
         } catch (error) {
@@ -137,7 +141,7 @@ export default function RecipientRegister() {
                             placeholder="CEP"
                             labelClass="small_label--big"
                             mask="99.999-999"
-                            maskChar={null}
+                            defaultValue=""
                         />
                     </div>
                 </div>

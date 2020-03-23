@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useField } from '@unform/core';
 
 import { MdPhoto, MdClear } from 'react-icons/md';
@@ -6,26 +6,16 @@ import { MdPhoto, MdClear } from 'react-icons/md';
 export default function AvatarInput({
     id,
     name,
-    defaultPreview,
     handdleAvatarChange = null,
-    handdleReset = false,
+    defaultValue,
     ...rest
 }) {
     const ref = useRef(null);
     const { fieldName, registerField } = useField(name);
-    const [preview, setPreview] = useState(defaultPreview);
-    const [reset, setReset] = useState(handdleReset);
+    const [preview, setPreview] = useState(defaultValue);
 
-    useEffect(() => {
-        registerField({
-            name: fieldName,
-            ref: ref.current,
-            path: 'files[0]',
-        });
-    }, [fieldName, registerField]);
-
-    function handdlePreview(e) {
-        let uploadFile = e.target.files?.[0];
+    const handdlePreview = useCallback(e => {
+        const uploadFile = e.target.files?.[0];
 
         if (uploadFile) {
             let reader = new FileReader();
@@ -35,29 +25,35 @@ export default function AvatarInput({
             };
 
             reader.readAsDataURL(uploadFile);
+        } else {
+            setPreview(null);
         }
-    }
+    }, []);
 
     useEffect(() => {
-        setReset(handdleReset);
-    }, [handdleReset]);
-
-    useEffect(() => {
-        function handdleRemoveAvatar() {
-            if (reset) {
+        registerField({
+            name: fieldName,
+            ref: ref.current,
+            path: 'files[0]',
+            clearValue(ref) {
+                ref.value = '';
                 setPreview(null);
-                const input = document.getElementById(id);
-                input.value = '';
+            },
+            setValue(_, value) {
+                setPreview(value);
+            },
+        });
+    }, [fieldName, registerField]);
 
-                var manualOnChange = document.createEvent('UIEvents');
-                manualOnChange.initUIEvent('change', true, true);
-                input.dispatchEvent(manualOnChange);
+    function handdleRemoveAvatar() {
+        setPreview(null);
+        const input = document.getElementById(id);
+        input.value = '';
 
-                setReset(false);
-            }
-        }
-        handdleRemoveAvatar();
-    }, [reset, id]);
+        var manualOnChange = document.createEvent('UIEvents');
+        manualOnChange.initUIEvent('change', true, true);
+        input.dispatchEvent(manualOnChange);
+    }
 
     return (
         <div className="avatar">
@@ -84,10 +80,7 @@ export default function AvatarInput({
                 />
             </label>
             {preview && (
-                <button
-                    className="avatar_image_remove"
-                    type="button"
-                    onClick={() => setReset(true)}>
+                <button className="avatar_image_remove" type="button" onClick={handdleRemoveAvatar}>
                     <MdClear size={28} />
                 </button>
             )}

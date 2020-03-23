@@ -4,23 +4,20 @@ import PropTypes from 'prop-types';
 
 export default function Input({ id, name, label, labelClass, ...rest }) {
     const inputRef = useRef(null);
-    const { fieldName, registerField, error } = useField(name);
+    const { fieldName, registerField, defaultValue, error } = useField(name);
 
     useEffect(() => {
         registerField({
             name: fieldName,
             ref: inputRef.current,
-            path: 'target.value',
-            getValue: ref => {
-                return ref.value;
-            },
+            path: 'value',
         });
     }, [fieldName, registerField]);
 
     return (
         <label htmlFor={id} className={labelClass}>
             {label && <span>{label}</span>}
-            <input id={id} name={name} ref={inputRef} {...rest} />
+            <input id={id} name={name} ref={inputRef} defaultValue={defaultValue} {...rest} />
             {error && <span className="error">{error}</span>}
         </label>
     );

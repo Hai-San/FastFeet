@@ -11,7 +11,10 @@ export default function Select({ name, ...rest }) {
         registerField({
             name: fieldName,
             ref: selectRef.current,
-            path: 'state.value',
+            path: 'select.state.value',
+            clearValue(ref) {
+                ref.select.select.clearValue();
+            },
             getValue: ref => {
                 if (rest.isMulti) {
                     if (!ref.select.state.value) {

@@ -82,7 +82,7 @@ export default function DeliveryerUpdate() {
                         <AvatarInput
                             id="avatar"
                             name="avatar"
-                            defaultPreview={deliveryer.avatar ? deliveryer.avatar.url : null}
+                            defaultValue={deliveryer.avatar ? deliveryer.avatar.url : null}
                             handdleAvatarChange={handdleAvatarChange}
                         />
                     </div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
@@ -13,11 +13,8 @@ import { Container } from '~/styles/formPages';
 
 export default function DeliveryerRegister() {
     const formRef = useRef(null);
-    const [nameDeliveryer, setNameDeliveryer] = useState('');
-    const [emailDeliveryer, setEmailDeliveryer] = useState('');
-    const [reset, setReset] = useState(false);
 
-    async function handleSubmit(data) {
+    async function handleSubmit(data, { reset }) {
         try {
             const schema = Yup.object().shape({
                 name: Yup.string().required('O nome é obrigatório'),
@@ -47,14 +44,9 @@ export default function DeliveryerRegister() {
                 email,
                 avatar_id,
             });
-
-            setNameDeliveryer('');
-            setEmailDeliveryer('');
-            setReset(true);
+            reset();
 
             toast.success('Entregador registrado com sucesso!');
-
-            setReset(false);
         } catch (error) {
             const validationErrors = {};
             if (error instanceof Yup.ValidationError) {
@@ -86,7 +78,7 @@ export default function DeliveryerRegister() {
                 </header>
                 <div className="form_container">
                     <div className="form_container_row center">
-                        <AvatarInput id="avatar" name="avatar" handdleReset={reset} />
+                        <AvatarInput id="avatar" name="avatar" />
                     </div>
                     <div className="form_container_row">
                         <Input
@@ -96,10 +88,6 @@ export default function DeliveryerRegister() {
                             type="text"
                             placeholder="Nome do entregador"
                             labelClass="large_label"
-                            value={nameDeliveryer}
-                            onChange={e => {
-                                setNameDeliveryer(e.target.value);
-                            }}
                         />
                     </div>
                     <div className="form_container_row">
@@ -110,10 +98,6 @@ export default function DeliveryerRegister() {
                             type="email"
                             placeholder="E-mail do entregador"
                             labelClass="large_label"
-                            value={emailDeliveryer}
-                            onChange={e => {
-                                setEmailDeliveryer(e.target.value);
-                            }}
                         />
                     </div>
                 </div>
