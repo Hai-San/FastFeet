@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Alert } from 'react-native';
+import React, { useState, useLayoutEffect } from 'react';
+import { Alert, YellowBox } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format, parseISO, isValid } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
+
+YellowBox.ignoreWarnings(['Non-serializable values were found in the navigation state']);
 
 import { orderStartRequest } from '~/store/modules/order/actions';
 
@@ -25,8 +27,6 @@ import colors from '~/styles/colors';
 
 export default function OrderDetails({ route, navigation }) {
     const dispatch = useDispatch();
-
-    const { order } = route.params;
 
     function formatDate(date) {
         if (date) {
@@ -52,9 +52,19 @@ export default function OrderDetails({ route, navigation }) {
         }
     }
 
+    const [order, setOrder] = useState(route.params.order);
     const [status, setStatus] = useState(getStatus());
     const [startDate, setStartDate] = useState(formatDate(order.start_date));
     const [endDate, setEndDate] = useState(formatDate(order.end_date));
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            order,
+        });
+
+        setStartDate(formatDate(new Date()));
+        setStatus(getStatus());
+    }, [order]);
 
     function handdleStart() {
         Alert.alert(
@@ -69,9 +79,11 @@ export default function OrderDetails({ route, navigation }) {
                     text: 'Iniciar',
                     onPress: () => {
                         dispatch(orderStartRequest(order.id));
-                        order.start_date = new Date();
-                        setStartDate(formatDate(order.start_date));
-                        setStatus(getStatus());
+
+                        setOrder({
+                            ...order,
+                            start_date: new Date(),
+                        });
                     },
                 },
             ],

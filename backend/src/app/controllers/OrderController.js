@@ -115,7 +115,7 @@ class OrderController {
                     attributes: { exclude: ['createdAt', 'updatedAt'] },
                 },
             ],
-            order: [['createdAt', 'ASC']],
+            order: [['createdAt', 'DESC']],
         });
 
         return res.json(orders);

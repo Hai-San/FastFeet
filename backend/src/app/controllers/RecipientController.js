@@ -33,6 +33,7 @@ class RecipientController {
             },
             offset: (page - 1) * perpage,
             limit: perpage,
+            order: [['id', 'DESC']],
         });
 
         return res.json(recipients);
