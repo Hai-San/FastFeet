@@ -60,7 +60,7 @@ export default function DeliveryerList() {
             setLoading(false);
         }
 
-        if (reduxLoading === loading) {
+        if (!reduxLoading) {
             loadDeliveryers();
         }
     }, [page, search, reduxLoading]);

@@ -63,7 +63,7 @@ export default function RecipientList() {
             setLoading(false);
         }
 
-        if (reduxLoading === loading) {
+        if (!reduxLoading) {
             loadRecipients();
         }
     }, [page, search, reduxLoading]);
