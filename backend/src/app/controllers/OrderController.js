@@ -1,4 +1,5 @@
 import Order from '../models/Order';
+import OrderProblem from '../models/OrderProblem';
 import Deliveryer from '../models/Deliveryer';
 import Recipient from '../models/Recipient';
 import File from '../models/File';
@@ -130,7 +131,11 @@ class OrderController {
             });
         }
 
-        orderDatabase.canceled_at = new Date();
+        await OrderProblem.destroy({
+            where: {
+                order_id: req.params.id,
+            },
+        });
 
         await orderDatabase.destroy();
 

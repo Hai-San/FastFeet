@@ -53,16 +53,17 @@ export default function OrderDetails({ route, navigation }) {
     }
 
     const [order, setOrder] = useState(route.params.order);
-    const [status, setStatus] = useState(getStatus());
-    const [startDate, setStartDate] = useState(formatDate(order.start_date));
-    const [endDate, setEndDate] = useState(formatDate(order.end_date));
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [status, setStatus] = useState('');
 
     useLayoutEffect(() => {
         navigation.setOptions({
             order,
         });
 
-        setStartDate(formatDate(new Date()));
+        setStartDate(formatDate(order.start_date));
+        setEndDate(formatDate(order.end_date));
         setStatus(getStatus());
     }, [order]);
 

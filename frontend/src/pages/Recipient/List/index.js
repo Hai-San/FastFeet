@@ -63,7 +63,9 @@ export default function RecipientList() {
             setLoading(false);
         }
 
-        loadRecipients();
+        if (reduxLoading === loading) {
+            loadRecipients();
+        }
     }, [page, search, reduxLoading]);
 
     function zipcode_format(code) {

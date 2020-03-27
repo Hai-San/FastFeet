@@ -10,8 +10,6 @@ export function* recipientUpdate({ payload }) {
     try {
         const { id, ...data } = payload;
 
-        console.tron.log(id, data);
-
         const UpdatedRecipient = yield call(api.put, `recipients/${id}`, data);
 
         toast.success('Destinatário atualizado com sucesso!');

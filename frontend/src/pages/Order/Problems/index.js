@@ -59,7 +59,9 @@ export default function OrderProblems() {
             setLoading(false);
         }
 
-        loadProblems();
+        if (loading === reduxLoading) {
+            loadProblems();
+        }
     }, [page, reduxLoading]);
 
     function handlePageClick(current) {

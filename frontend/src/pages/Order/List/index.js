@@ -88,7 +88,9 @@ export default function OrderList() {
             setLoading(false);
         }
 
-        loadOrders();
+        if (reduxLoading === loading) {
+            loadOrders();
+        }
     }, [page, search, reduxLoading]);
 
     function handlePageClick(current) {
