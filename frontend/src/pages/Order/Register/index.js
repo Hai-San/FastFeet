@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
@@ -15,8 +16,11 @@ export default function OrderRegister() {
     const formRef = useRef(null);
     const [recipientOptions, setRecipientOptions] = useState([]);
     const [deliveryerOptions, setDeliveryerOptions] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     async function handleSubmit(data, { reset }) {
+        setLoading(true);
+
         try {
             const schema = Yup.object().shape({
                 product: Yup.string().required('O nome do produto é obrigatório'),
@@ -50,6 +54,8 @@ export default function OrderRegister() {
 
             toast.error('Erro ao cadastrar a encomenda, confira todas as informações.');
         }
+
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -116,13 +122,19 @@ export default function OrderRegister() {
                             <MdKeyboardArrowLeft size={24} />
                             <span>Voltar</span>
                         </Link>
-                        <button type="submit" className="button">
-                            <MdDone size={24} />
-                            <span>Salvar</span>
+                        <button type="submit" className="button" disabled={loading}>
+                            {loading ? (
+                                <AiOutlineLoading3Quarters size={24} />
+                            ) : (
+                                <>
+                                    <MdDone size={24} />
+                                    <span>Salvar</span>
+                                </>
+                            )}
                         </button>
                     </div>
                 </header>
-                <div className="form_container">
+                <div className="form_container" data-loading={loading}>
                     <div className="form_container_row">
                         <label className="medium_Label" htmlFor="recipient">
                             <span>Destinatário</span>

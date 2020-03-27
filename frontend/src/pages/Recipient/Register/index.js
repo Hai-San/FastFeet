@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
@@ -12,8 +13,11 @@ import { Container } from '~/styles/formPages';
 
 export default function RecipientRegister() {
     const formRef = useRef(null);
+    const [loading, setLoading] = useState(false);
 
     async function handleSubmit(data, { reset }) {
+        setLoading(true);
+
         try {
             const schema = Yup.object().shape({
                 name: Yup.string().required('O nome é obrigatório'),
@@ -61,6 +65,8 @@ export default function RecipientRegister() {
 
             toast.error('Erro ao cadastrar o destinatário, confira todas as informações.');
         }
+
+        setLoading(false);
     }
 
     return (
@@ -73,13 +79,19 @@ export default function RecipientRegister() {
                             <MdKeyboardArrowLeft size={24} />
                             <span>Voltar</span>
                         </Link>
-                        <button type="submit" className="button">
-                            <MdDone size={24} />
-                            <span>Salvar</span>
+                        <button type="submit" className="button" disabled={loading}>
+                            {loading ? (
+                                <AiOutlineLoading3Quarters size={24} />
+                            ) : (
+                                <>
+                                    <MdDone size={24} />
+                                    <span>Salvar</span>
+                                </>
+                            )}
                         </button>
                     </div>
                 </header>
-                <div className="form_container">
+                <div className="form_container" data-loading={loading}>
                     <div className="form_container_row">
                         <Input
                             label="Nome"

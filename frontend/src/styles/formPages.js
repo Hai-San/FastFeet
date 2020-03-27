@@ -66,6 +66,11 @@ export const Container = styled.div`
         padding: 32px 30px;
         border-radius: 4px;
         background-color: ${colors.white};
+        position: relative;
+
+        &[data-loading='true'] {
+            opacity: 0.4;
+        }
     }
 
     .form_container_row {
@@ -169,10 +174,32 @@ export const Container = styled.div`
             border-color: ${colors.grayc6};
         }
 
-        button.button {
-            background-color: ${colors.purpleDark};
-            border-color: ${colors.purpleDark};
-            margin-left: 16px;
+        button {
+            &.button {
+                background-color: ${colors.purpleDark};
+                border-color: ${colors.purpleDark};
+                margin-left: 16px;
+            }
+
+            &:disabled {
+                &[type='submit'] {
+                    background-color: ${colors.grayc6};
+                    border-color: ${colors.grayc6};
+
+                    svg {
+                        animation: rotating 1.25s linear infinite;
+                    }
+                }
+
+                @keyframes rotating {
+                    from {
+                        transform: rotate(0deg);
+                    }
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+            }
         }
     }
 
