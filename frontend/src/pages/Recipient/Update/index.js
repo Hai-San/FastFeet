@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import * as Yup from 'yup';
 
 import Input from '~/components/Form/Input';
@@ -14,6 +15,7 @@ export default function RecipientRegister() {
     const formRef = useRef(null);
     const dispatch = useDispatch();
     const recipient = useSelector(state => state.recipient.data);
+    const loading = useSelector(state => state.recipient.loading);
 
     async function handleSubmit(data) {
         try {
@@ -67,13 +69,19 @@ export default function RecipientRegister() {
                             <MdKeyboardArrowLeft size={24} />
                             <span>Voltar</span>
                         </Link>
-                        <button type="submit" className="button">
-                            <MdDone size={24} />
-                            <span>Salvar</span>
+                        <button type="submit" className="button" disabled={loading}>
+                            {loading ? (
+                                <AiOutlineLoading3Quarters size={24} />
+                            ) : (
+                                <>
+                                    <MdDone size={24} />
+                                    <span>Salvar</span>
+                                </>
+                            )}
                         </button>
                     </div>
                 </header>
-                <div className="form_container">
+                <div className="form_container" data-loading={loading}>
                     <div className="form_container_row">
                         <Input
                             label="Nome"

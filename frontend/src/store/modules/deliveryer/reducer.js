@@ -8,6 +8,7 @@ const INITIAL_STATE = {
 export default function deliveryer(state = INITIAL_STATE, action) {
     return produce(state, draft => {
         switch (action.type) {
+            case '@deliveryer/DELIVERYER_UPDATE_REQUEST':
             case '@deliveryer/DELIVERYER_DELETE_REQUEST': {
                 draft.loading = true;
                 break;

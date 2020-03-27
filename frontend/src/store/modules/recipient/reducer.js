@@ -8,6 +8,7 @@ const INITIAL_STATE = {
 export default function recipient(state = INITIAL_STATE, action) {
     return produce(state, draft => {
         switch (action.type) {
+            case '@recipient/RECIPIENT_UPDATE_REQUEST':
             case '@recipient/RECIPIENT_DELETE_REQUEST': {
                 draft.loading = true;
                 break;

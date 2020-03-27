@@ -8,6 +8,7 @@ const INITIAL_STATE = {
 export default function order(state = INITIAL_STATE, action) {
     return produce(state, draft => {
         switch (action.type) {
+            case '@order/ORDER_UPDATE_REQUEST':
             case '@order/ORDER_DELETE_REQUEST':
             case '@order/ORDER_CANCEL_REQUEST': {
                 draft.loading = true;
