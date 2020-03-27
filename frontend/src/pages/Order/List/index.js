@@ -10,6 +10,7 @@ import { format, parseISO } from 'date-fns';
 
 import api from '~/services/api';
 import Input from '~/components/Form/Input';
+import Loading from '~/components/Loading';
 import TableOptions from './TableOptions';
 
 import { Container, Table } from '~/styles/listPages';
@@ -23,10 +24,13 @@ export default function OrderList() {
     const [page, setPage] = useState(1);
     const [ordersCount, setOrdersCount] = useState(0);
     const perpage = 5;
-    const loading = useSelector(state => state.order.loading);
+    const [loading, setLoading] = useState(false);
+    const reduxLoading = useSelector(state => state.order.loading);
 
     useEffect(() => {
         async function loadOrders() {
+            setLoading(true);
+
             const response = await api.get('orders', {
                 params: {
                     search,
@@ -80,12 +84,12 @@ export default function OrderList() {
                 setEmpty(true);
                 setOrders([]);
             }
+
+            setLoading(false);
         }
 
-        if (!loading) {
-            loadOrders();
-        }
-    }, [page, search, loading]);
+        loadOrders();
+    }, [page, search, reduxLoading]);
 
     function handlePageClick(current) {
         setPage(current);
@@ -108,9 +112,6 @@ export default function OrderList() {
 
     return (
         <PageContainer>
-            <div className="loadingScreen" data-loading={loading}>
-                loading
-            </div>
             <Container>
                 <h1>Gerenciando encomendas</h1>
                 <div className="page_header">
@@ -134,83 +135,89 @@ export default function OrderList() {
                         <span>Cadastrar</span>
                     </Link>
                 </div>
-                {orders.length > 0 ? (
-                    <>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Produto</th>
-                                    <th>Destinatário</th>
-                                    <th>Entregador</th>
-                                    <th>Cidade</th>
-                                    <th>Estado</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orders.map(order => (
-                                    <tr key={String(order.id)}>
-                                        <td>#{order.id}</td>
-                                        <td>{order.product}</td>
-                                        <td>{order.recipient.name}</td>
-                                        <td>
-                                            <div className="orderDeliveryer">
-                                                {order.deliveryer.avatar ? (
-                                                    <div className="deliveryer_avatar">
-                                                        <img
-                                                            src={order.deliveryer.avatar.url}
-                                                            alt={order.deliveryer.name}
-                                                        />
-                                                    </div>
-                                                ) : (
-                                                    <ConfigProvider
-                                                        colors={[
-                                                            '#F4EFFC',
-                                                            '#FCF4EE',
-                                                            '#EBFBFA',
-                                                            '#FFEEF1',
-                                                            '#F4F9EF',
-                                                        ]}>
-                                                        <Avatar
-                                                            fgColor="#777777"
-                                                            size="35"
-                                                            name={order.deliveryer.name}
-                                                            maxInitials={2}
-                                                            alt={order.deliveryer.name}
-                                                        />
-                                                    </ConfigProvider>
-                                                )}
+                <div className="table_container">
+                    <Loading loading={loading} />
 
-                                                <span>{order.deliveryer.name}</span>
-                                            </div>
-                                        </td>
-                                        <td>{order.recipient.city}</td>
-                                        <td>{order.recipient.state}</td>
-                                        <td>
-                                            <OrderStatus data-status={order.status}>
-                                                {order.status}
-                                            </OrderStatus>
-                                        </td>
-                                        <td>
-                                            <TableOptions order={order} />
-                                        </td>
+                    {orders.length > 0 ? (
+                        <>
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Produto</th>
+                                        <th>Destinatário</th>
+                                        <th>Entregador</th>
+                                        <th>Cidade</th>
+                                        <th>Estado</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                        <Pagination
-                            current={page}
-                            pageSize={perpage}
-                            total={ordersCount}
-                            onChange={handlePageClick}
-                            showTitle={false}
-                        />
-                    </>
-                ) : (
-                    empty && search.length > 0 && <h2>Sua busca não retornou nenhum resultado</h2>
-                )}
+                                </thead>
+                                <tbody>
+                                    {orders.map(order => (
+                                        <tr key={String(order.id)}>
+                                            <td>#{order.id}</td>
+                                            <td>{order.product}</td>
+                                            <td>{order.recipient.name}</td>
+                                            <td>
+                                                <div className="orderDeliveryer">
+                                                    {order.deliveryer.avatar ? (
+                                                        <div className="deliveryer_avatar">
+                                                            <img
+                                                                src={order.deliveryer.avatar.url}
+                                                                alt={order.deliveryer.name}
+                                                            />
+                                                        </div>
+                                                    ) : (
+                                                        <ConfigProvider
+                                                            colors={[
+                                                                '#F4EFFC',
+                                                                '#FCF4EE',
+                                                                '#EBFBFA',
+                                                                '#FFEEF1',
+                                                                '#F4F9EF',
+                                                            ]}>
+                                                            <Avatar
+                                                                fgColor="#777777"
+                                                                size="35"
+                                                                name={order.deliveryer.name}
+                                                                maxInitials={2}
+                                                                alt={order.deliveryer.name}
+                                                            />
+                                                        </ConfigProvider>
+                                                    )}
+
+                                                    <span>{order.deliveryer.name}</span>
+                                                </div>
+                                            </td>
+                                            <td>{order.recipient.city}</td>
+                                            <td>{order.recipient.state}</td>
+                                            <td>
+                                                <OrderStatus data-status={order.status}>
+                                                    {order.status}
+                                                </OrderStatus>
+                                            </td>
+                                            <td>
+                                                <TableOptions order={order} />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                            <Pagination
+                                current={page}
+                                pageSize={perpage}
+                                total={ordersCount}
+                                onChange={handlePageClick}
+                                showTitle={false}
+                            />
+                        </>
+                    ) : (
+                        !loading &&
+                        empty &&
+                        search.length > 0 && <h2>Sua busca não retornou nenhum resultado</h2>
+                    )}
+                </div>
             </Container>
         </PageContainer>
     );

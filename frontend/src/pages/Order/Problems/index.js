@@ -6,6 +6,7 @@ import LinesEllipsis from 'react-lines-ellipsis';
 
 import api from '~/services/api';
 import TableOptions from './TableOptions';
+import Loading from '~/components/Loading';
 
 import { Container, Table } from '~/styles/listPages';
 import { OrderStatus } from '~/styles/orderStatus';
@@ -16,10 +17,13 @@ export default function OrderProblems() {
     const [page, setPage] = useState(1);
     const [problemsCount, setProblemsCount] = useState(0);
     const perpage = 5;
-    const loading = useSelector(state => state.order.loading);
+    const [loading, setLoading] = useState(false);
+    const reduxLoading = useSelector(state => state.order.loading);
 
     useEffect(() => {
         async function loadProblems() {
+            setLoading(true);
+
             const response = await api.get('problems', {
                 params: {
                     page,
@@ -51,12 +55,12 @@ export default function OrderProblems() {
             });
 
             setProblems(data);
+
+            setLoading(false);
         }
 
-        if (!loading) {
-            loadProblems();
-        }
-    }, [page, loading]);
+        loadProblems();
+    }, [page, reduxLoading]);
 
     function handlePageClick(current) {
         setPage(current);
@@ -64,58 +68,59 @@ export default function OrderProblems() {
 
     return (
         <PageContainer>
-            <div className="loadingScreen" data-loading={loading}>
-                loading
-            </div>
             <Container>
                 <h1>Problemas na entrega</h1>
-                {problems.length > 0 ? (
-                    <>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>Encomenda</th>
-                                    <th>Problema</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {problems.map(problem => (
-                                    <tr key={String(problem.id)}>
-                                        <td>#{problem.order.id}</td>
-                                        <td>
-                                            <LinesEllipsis
-                                                className="description"
-                                                text={problem.description}
-                                                maxLine={1}
-                                                ellipsis="..."
-                                                basedOn="words"
-                                            />
-                                        </td>
-                                        <td>
-                                            <OrderStatus data-status={problem.order.status}>
-                                                {problem.order.status}
-                                            </OrderStatus>
-                                        </td>
-                                        <td>
-                                            <TableOptions problem={problem} />
-                                        </td>
+                <div className="table_container">
+                    <Loading loading={loading} />
+
+                    {problems.length > 0 ? (
+                        <>
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th>Encomenda</th>
+                                        <th>Problema</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                        <Pagination
-                            current={page}
-                            pageSize={perpage}
-                            total={problemsCount}
-                            onChange={handlePageClick}
-                            showTitle={false}
-                        />
-                    </>
-                ) : (
-                    <h2>Nenhum problema foi encontrado</h2>
-                )}
+                                </thead>
+                                <tbody>
+                                    {problems.map(problem => (
+                                        <tr key={String(problem.id)}>
+                                            <td>#{problem.order.id}</td>
+                                            <td>
+                                                <LinesEllipsis
+                                                    className="description"
+                                                    text={problem.description}
+                                                    maxLine={1}
+                                                    ellipsis="..."
+                                                    basedOn="words"
+                                                />
+                                            </td>
+                                            <td>
+                                                <OrderStatus data-status={problem.order.status}>
+                                                    {problem.order.status}
+                                                </OrderStatus>
+                                            </td>
+                                            <td>
+                                                <TableOptions problem={problem} />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                            <Pagination
+                                current={page}
+                                pageSize={perpage}
+                                total={problemsCount}
+                                onChange={handlePageClick}
+                                showTitle={false}
+                            />
+                        </>
+                    ) : (
+                        !loading && <h2>Nenhum problema foi encontrado</h2>
+                    )}
+                </div>
             </Container>
         </PageContainer>
     );

@@ -8,6 +8,7 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 
 import api from '~/services/api';
 import Input from '~/components/Form/Input';
+import Loading from '~/components/Loading';
 import TableOptions from './TableOptions';
 import { RecipientUpdateParams, RecipientDeleteRequest } from '~/store/modules/recipient/actions';
 
@@ -22,10 +23,13 @@ export default function RecipientList() {
     const [page, setPage] = useState(1);
     const [RecipientCount, setRecipientsCount] = useState(0);
     const perpage = 5;
-    const loading = useSelector(state => state.recipient.loading);
+    const [loading, setLoading] = useState(false);
+    const reduxLoading = useSelector(state => state.recipient.loading);
 
     useEffect(() => {
         async function loadRecipients() {
+            setLoading(true);
+
             const response = await api.get('recipients', {
                 params: {
                     search,
@@ -55,12 +59,12 @@ export default function RecipientList() {
                 setEmpty(true);
                 setRecipients([]);
             }
+
+            setLoading(false);
         }
 
-        if (!loading) {
-            loadRecipients();
-        }
-    }, [page, search, loading]);
+        loadRecipients();
+    }, [page, search, reduxLoading]);
 
     function zipcode_format(code) {
         var regex = /^([\d]{2})\.?([\d]{3})-?([\d]{3})/;
@@ -93,9 +97,6 @@ export default function RecipientList() {
 
     return (
         <PageContainer>
-            <div className="loadingScreen" data-loading={loading}>
-                loading
-            </div>
             <Container>
                 <h1>Gerenciando destinatários</h1>
                 <div className="page_header">
@@ -118,44 +119,51 @@ export default function RecipientList() {
                         <span>Cadastrar</span>
                     </Link>
                 </div>
-                {recipients.length > 0 ? (
-                    <>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Endereço</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {recipients.map(recipient => (
-                                    <tr key={String(recipient.id)}>
-                                        <td>#{recipient.id}</td>
-                                        <td>{recipient.name}</td>
-                                        <td>{`${recipient.address}, ${recipient.address_number}, ${recipient.zip_code_formated}, ${recipient.city} - ${recipient.state}`}</td>
-                                        <td>
-                                            <TableOptions
-                                                fcEdit={() => handdleEdit(recipient)}
-                                                fcDelete={() => handdleDelete(recipient)}
-                                            />
-                                        </td>
+
+                <div className="table_container">
+                    <Loading loading={loading} />
+
+                    {recipients.length > 0 ? (
+                        <>
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Endereço</th>
+                                        <th>Ações</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                        <Pagination
-                            current={page}
-                            pageSize={perpage}
-                            total={RecipientCount}
-                            onChange={handlePageClick}
-                            showTitle={false}
-                        />
-                    </>
-                ) : (
-                    empty && search.length > 0 && <h2>Sua busca não retornou nenhum resultado</h2>
-                )}
+                                </thead>
+                                <tbody>
+                                    {recipients.map(recipient => (
+                                        <tr key={String(recipient.id)}>
+                                            <td>#{recipient.id}</td>
+                                            <td>{recipient.name}</td>
+                                            <td>{`${recipient.address}, ${recipient.address_number}, ${recipient.zip_code_formated}, ${recipient.city} - ${recipient.state}`}</td>
+                                            <td>
+                                                <TableOptions
+                                                    fcEdit={() => handdleEdit(recipient)}
+                                                    fcDelete={() => handdleDelete(recipient)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                            <Pagination
+                                current={page}
+                                pageSize={perpage}
+                                total={RecipientCount}
+                                onChange={handlePageClick}
+                                showTitle={false}
+                            />
+                        </>
+                    ) : (
+                        !loading &&
+                        empty &&
+                        search.length > 0 && <h2>Sua busca não retornou nenhum resultado</h2>
+                    )}
+                </div>
             </Container>
         </PageContainer>
     );
